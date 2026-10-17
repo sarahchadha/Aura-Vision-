@@ -1,0 +1,57 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Sensitive credentials & environment variables
+.env
+*.pem
+*.key
+
+# Model weights & binaries
+*.pt
+*.pth
+*.onnx
+*.weights
+*.engine
+
+# System Logs & temporary files
+*.log
+auravision_out.log
+auravision_err.log
+sos_emergency_snapshot.jpg
+
+# IDE & Editor Configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

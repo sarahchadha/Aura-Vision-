@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AuraVision · DEVLYMPICS 2026 · DevOps Club NSUT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson-neon:       #ff1e42;
+  --crimson-glow:       rgba(255, 30, 66, 0.45);
+  --crimson-deep:       #40040c;
+  --crimson-dark:       #1a0307;
+
+  --nsut-gold:          #f6c343;
+  --nsut-gold-glow:     rgba(246, 195, 67, 0.35);
+
+  --bg-deep:            #06070c;
+  --bg-surface:         #0b0d17;
+  --bg-panel:           rgba(13, 16, 28, 0.88);
+  --panel-edge:         rgba(255, 30, 66, 0.25);
+
+  --cyan:               #00f0ff;
+  --cyan-glow:          rgba(0, 240, 255, 0.35);
+  --electric:           #38bdf8;
+  --emerald:            #10b981;
+  --ruby:               #ef4444;
+  --purple:             #a855f7;
+
+  --text-main:          #f8fafc;
+  --text-muted:         #cbd5e1;
+  --text-dim:           #64748b;
+
+  --font-hud:           'Orbitron', sans-serif;
+  --font-tech:          'Rajdhani', sans-serif;
+  --font-body:          'Space Grotesk', sans-serif;
+  --font-mono:          'JetBrains Mono', monospace;
+
+  --grad-devlympics:    linear-gradient(135deg, #ff1e42 0%, #f6c343 50%, #ff1e42 100%);
+  --grad-panel-top:     linear-gradient(90deg, #ff1e42, #f6c343, #ff1e42);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* SLEEK CYBER BACKGROUND */
+.silicon-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+}
+.wafer-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 30, 66, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(246, 195, 67, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 50% 20%, #000 0%, transparent 85%);
+}
+.ambient-glow-1 {
+  position: absolute; top: -100px; left: 15%; width: 650px; height: 500px;
+  background: radial-gradient(circle, rgba(255, 30, 66, 0.16), transparent 70%);
+  filter: blur(70px);
+}
+.ambient-glow-2 {
+  position: absolute; top: 35%; right: 5%; width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(246, 195, 67, 0.12), transparent 70%);
+  filter: blur(80px);
+}
+
+/* COMPACT HEADER NAVBAR */
+.dev-navbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 24px;
+  background: rgba(8, 10, 18, 0.94);
+  border-bottom: 1.5px solid rgba(255, 30, 66, 0.35);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+.nav-left { display: flex; align-items: center; gap: 14px; }
+.dev-brand-badge {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; cursor: pointer;
+}
+.dev-logo-mark {
+  width: 38px; height: 38px; border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 30, 66, 0.3), rgba(246, 195, 67, 0.2));
+  border: 1.5px solid var(--crimson-neon);
+  display: grid; place-items: center;
+  box-shadow: 0 0 12px var(--crimson-glow);
+  overflow: hidden;
+}
+.dev-logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+.dev-title-block h1 {
+  font-family: var(--font-hud); font-size: 17px; font-weight: 900;
+  letter-spacing: 2.5px;
+  background: var(--grad-devlympics);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: flex; align-items: center; gap: 8px;
+}
+.dev-subtext {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1.5px;
+  color: var(--nsut-gold); text-transform: uppercase;
+}
+
+.nav-center { display: flex; align-items: center; gap: 10px; }
+.event-live-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 12px; background: rgba(255, 30, 66, 0.15);
+  border: 1px solid var(--crimson-neon); border-radius: 20px;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1.2px;
+  color: #fff; font-weight: 700;
+}
+.live-pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--crimson-neon); box-shadow: 0 0 8px var(--crimson-neon);
+  animation: pulse-ring 1.3s infinite;
+}
+.unstop-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; background: linear-gradient(135deg, #10b981, #059669);
+  border: 1px solid #34d399; border-radius: 20px;
+  font-family: var(--font-tech); font-size: 12.5px; font-weight: 700;
+  letter-spacing: 1px; color: #fff; text-decoration: none;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s ease;
+}
+.unstop-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.7);
+}
+
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.cam-indicator-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 12px; background: rgba(14, 20, 36, 0.85);
+  border: 1px solid rgba(255, 30, 66, 0.3); border-radius: 6px;
+  font-family: var(--font-mono); font-size: 10.5px;
+}
+.cam-indicator-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--emerald); box-shadow: 0 0 8px var(--emerald);
+}
+
+/* SLIM TICKER */
+.dev-ticker {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 24px; background: rgba(6, 8, 16, 0.88);
+  border-bottom: 1px solid rgba(255, 30, 66, 0.15);
+  font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted);
+}
+.ticker-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.ticker-left span b { color: var(--nsut-gold); }
+.voice-mini-badge {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--nsut-gold); font-size: 10px;
+}
+.mic-wave { display: flex; align-items: center; gap: 2px; height: 10px; }
+.wave-bar {
+  width: 2px; height: 100%; background: var(--crimson-neon); border-radius: 1px;
+  animation: wave 1.2s ease-in-out infinite alternate;
+}
+.wave-bar:nth-child(2) { animation-delay: 0.2s; height: 50%; }
+.wave-bar:nth-child(3) { animation-delay: 0.4s; height: 80%; }
+@keyframes wave { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(1.2); } }
+
+/* STREAMLINED GRID */
+.dashboard-grid {
+  display: grid; grid-template-columns: 1fr 390px; gap: 18px;
+  padding: 16px 24px; max-width: 1720px; margin: 0 auto;
+  position: relative; z-index: 2;
+}
+
+/* SLICK PANELS */
+.cyber-panel {
+  position: relative; background: var(--bg-panel);
+  border: 1px solid var(--panel-edge); border-radius: 12px;
+  overflow: hidden; backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+.cyber-panel::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--grad-panel-top);
+}
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 16px;
+  background: linear-gradient(180deg, rgba(255, 30, 66, 0.12), transparent);
+  border-bottom: 1px solid rgba(255, 30, 66, 0.15);
+}
+.panel-title {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-hud); font-size: 11.5px; font-weight: 700;
+  letter-spacing: 1.5px; color: var(--nsut-gold); text-transform: uppercase;
+}
+.panel-meta {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1px;
+  color: var(--text-dim); text-transform: uppercase;
+}
+
+/* CAMERA BAR */
+.camera-source-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 14px; background: rgba(9, 12, 22, 0.95);
+  border-bottom: 1px solid rgba(255, 30, 66, 0.18);
+  flex-wrap: wrap; gap: 8px;
+}
+.cam-btn-group { display: flex; gap: 7px; align-items: center; }
+.cam-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; font-family: var(--font-tech); font-size: 13px; font-weight: 700;
+  background: rgba(14, 18, 32, 0.85); border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted); border-radius: 6px; cursor: pointer;
+  transition: all 0.18s ease;
+}
+.cam-btn:hover { border-color: var(--crimson-neon); color: #fff; }
+.cam-btn.active {
+  background: linear-gradient(135deg, rgba(255, 30, 66, 0.35), rgba(246, 195, 67, 0.2));
+  border-color: var(--crimson-neon); color: #fff;
+  box-shadow: 0 0 10px var(--crimson-glow);
+}
+.cam-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.cam-dot.blue { background: var(--electric); box-shadow: 0 0 6px var(--electric); }
+.cam-dot.cyan { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+.cam-active-badge {
+  font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
+  padding: 4px 10px; border-radius: 4px;
+}
+.cam-active-badge.blue {
+  background: rgba(56, 189, 248, 0.15); border: 1px solid var(--electric); color: var(--electric);
+}
+.cam-active-badge.cyan {
+  background: rgba(0, 240, 255, 0.15); border: 1px solid var(--cyan); color: var(--cyan);
+}
+
+/* VIDEO STAGE */
+.video-stage-container {
+  position: relative; background: #000;
+  min-height: 420px; max-height: 560px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+#liveVideoFeed { width: 100%; height: 100%; object-fit: contain; display: block; }
+.hud-overlay {
+  position: absolute; inset: 0; pointer-events: none;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 14px;
+}
+.hud-top-bar, .hud-bottom-bar { display: flex; justify-content: space-between; align-items: center; }
+.hud-mode-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 14px; background: rgba(6, 8, 16, 0.88);
+  border: 1px solid var(--crimson-neon); border-radius: 5px;
+  font-family: var(--font-hud); font-size: 11px; font-weight: 800;
+  letter-spacing: 1.5px; color: var(--crimson-neon);
+  box-shadow: 0 0 14px var(--crimson-glow); backdrop-filter: blur(6px);
+}
+.hud-mode-pill.sos-flash {
+  border-color: #ff0000; color: #ff0000;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+  animation: pulse-ring 0.6s infinite;
+}
+.hud-live-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 12px; background: rgba(6, 8, 16, 0.88);
+  border: 1px solid rgba(255, 30, 66, 0.5); border-radius: 5px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; color: #fff;
+}
+.hud-target-reticle {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 76px; height: 76px; border: 1.5px dashed rgba(255, 30, 66, 0.5);
+  border-radius: 50%; pointer-events: none; opacity: 0.6;
+}
+.hud-target-reticle::before, .hud-target-reticle::after {
+  content: ''; position: absolute; background: var(--crimson-neon);
+}
+.hud-target-reticle::before { top: 50%; left: -10px; right: -10px; height: 1px; }
+.hud-target-reticle::after { left: 50%; top: -10px; bottom: -10px; width: 1px; }
+.hud-meta-badge {
+  background: rgba(6, 8, 16, 0.85); padding: 5px 10px; border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1px; color: var(--text-muted);
+}
+
+/* STAGE CONTROLS */
+.hud-controls-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 16px; background: rgba(8, 10, 18, 0.95);
+  border-top: 1px solid rgba(255, 30, 66, 0.15);
+}
+.stage-btn-group { display: flex; gap: 8px; }
+.stage-action-btn {
+  background: rgba(255, 30, 66, 0.14); border: 1px solid rgba(255, 30, 66, 0.35);
+  color: var(--text-main); padding: 6px 12px; border-radius: 6px;
+  font-family: var(--font-tech); font-size: 13px; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.18s ease;
+}
+.stage-action-btn:hover {
+  background: var(--crimson-neon); color: #fff;
+  box-shadow: 0 0 12px var(--crimson-glow);
+}
+
+/* TELEMETRY ROW */
+.telemetry-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(255, 30, 66, 0.12);
+}
+.telemetry-box {
+  background: rgba(10, 13, 24, 0.95); padding: 10px 14px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.telemetry-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.2px;
+  color: var(--text-dim); text-transform: uppercase;
+}
+.telemetry-val {
+  font-family: var(--font-hud); font-size: 14px; font-weight: 700;
+  letter-spacing: 1px; color: var(--nsut-gold);
+}
+.telemetry-val.emerald { color: var(--emerald); }
+.telemetry-val.blue { color: var(--electric); }
+.telemetry-val.ruby { color: var(--crimson-neon); }
+
+/* SIDEBAR RIGHT COLUMN */
+.sidebar-deck { display: flex; flex-direction: column; gap: 14px; }
+
+/* DEVLYMPICS COMPACT BANNER CARD */
+.dev-banner-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(64, 4, 12, 0.9), rgba(13, 16, 28, 0.95));
+  border: 1.5px solid var(--crimson-neon); border-radius: 12px;
+  overflow: hidden; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+.dev-banner-poster {
+  width: 100%; height: 160px; object-fit: cover; display: block;
+  cursor: pointer; transition: transform 0.3s ease;
+}
+.dev-banner-poster:hover { transform: scale(1.02); }
+.dev-banner-footer {
+  padding: 8px 12px; background: rgba(6, 8, 16, 0.92);
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 9.5px;
+}
+
+/* MODE CARDS COMPACT */
+.modes-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 12px;
+}
+.mode-card {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(14, 18, 34, 0.75); border: 1px solid rgba(255, 30, 66, 0.2);
+  border-radius: 8px; padding: 9px 10px; cursor: pointer;
+  transition: all 0.2s ease; text-decoration: none;
+}
+.mode-card:hover {
+  border-color: var(--crimson-neon); background: rgba(255, 30, 66, 0.15);
+  transform: translateY(-2px);
+}
+.mode-card.active {
+  border-color: var(--crimson-neon);
+  background: linear-gradient(135deg, rgba(255, 30, 66, 0.35), rgba(246, 195, 67, 0.15));
+  box-shadow: 0 0 14px var(--crimson-glow);
+}
+.mode-badge {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid currentColor;
+  display: grid; place-items: center; font-family: var(--font-hud);
+  font-size: 11px; font-weight: 800; flex-shrink: 0;
+}
+.mode-info { min-width: 0; flex: 1; }
+.mode-name {
+  font-family: var(--font-hud); font-size: 10.5px; font-weight: 700;
+  letter-spacing: 1px; color: #fff; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mode-card.active .mode-name { color: var(--nsut-gold); }
+.mode-desc { font-family: var(--font-mono); font-size: 8.5px; color: var(--text-dim); }
+
+/* SOS BUTTON PROMINENT */
+.sos-card-btn {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+  border: 1.5px solid #ef4444; border-radius: 8px;
+  padding: 10px; cursor: pointer; text-decoration: none;
+  font-family: var(--font-hud); font-size: 12px; font-weight: 900;
+  letter-spacing: 2px; color: #fff;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+  transition: all 0.2s ease;
+}
+.sos-card-btn:hover {
+  background: #dc2626; box-shadow: 0 0 24px rgba(239, 68, 68, 0.8);
+  transform: scale(1.02);
+}
+.sos-card-btn.active {
+  animation: pulse-ring 0.6s infinite;
+  background: #ff0000; border-color: #fff;
+}
+.standby-card-btn {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: rgba(255, 255, 255, 0.04); border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 6px; padding: 7px; cursor: pointer;
+  font-family: var(--font-hud); font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; color: var(--text-muted);
+}
+.standby-card-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+/* INTERACTIVE AI CONVERSATION PANEL */
+.ai-chat-box {
+  padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;
+}
+.ai-dialogue-stream {
+  background: rgba(6, 8, 16, 0.9); border: 1px solid rgba(255, 30, 66, 0.2);
+  border-radius: 8px; padding: 10px; min-height: 110px; max-height: 150px;
+  overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px;
+}
+.chat-msg { display: flex; flex-direction: column; gap: 2px; line-height: 1.35; }
+.chat-msg.user { color: var(--nsut-gold); }
+.chat-msg.ai { color: #38bdf8; }
+.chat-sender { font-size: 9px; font-weight: 700; letter-spacing: 1px; opacity: 0.8; }
+.chat-body { font-size: 11px; }
+
+.ai-input-row { display: flex; gap: 6px; }
+.ai-text-input {
+  flex: 1; background: rgba(6, 8, 16, 0.95);
+  border: 1px solid rgba(255, 30, 66, 0.35); border-radius: 6px;
+  padding: 8px 12px; font-family: var(--font-body); font-size: 12.5px;
+  color: #fff; outline: none; transition: border-color 0.2s;
+}
+.ai-text-input:focus { border-color: var(--crimson-neon); box-shadow: 0 0 10px var(--crimson-glow); }
+.ai-send-btn {
+  background: linear-gradient(135deg, var(--crimson-neon), #b91c1c);
+  border: 1px solid var(--nsut-gold); border-radius: 6px;
+  padding: 0 14px; font-family: var(--font-hud); font-size: 11px;
+  font-weight: 800; letter-spacing: 1px; color: #fff; cursor: pointer;
+}
+.ai-send-btn:hover { background: var(--nsut-gold); color: #000; }
+
+.quick-prompts-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.prompt-chip {
+  background: rgba(14, 18, 34, 0.8); border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono);
+  font-size: 9px; color: var(--text-muted); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.prompt-chip:hover { border-color: var(--crimson-neon); color: #fff; background: rgba(255, 30, 66, 0.15); }
+
+/* MIC BUTTON */
+.mic-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 12px; background: rgba(9, 12, 22, 0.9);
+  border: 1px solid rgba(255, 30, 66, 0.2); border-radius: 8px;
+}
+.mic-btn-compact {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--emerald); border-radius: 6px;
+  color: var(--emerald); font-family: var(--font-hud); font-size: 10px;
+  font-weight: 700; cursor: pointer;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.97); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(0.97); opacity: 0.8; }
+}
+
+@media (max-width: 1100px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .telemetry-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="silicon-bg">
+  <div class="wafer-grid"></div>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="dev-navbar">
+  <div class="nav-left">
+    <div class="dev-brand-badge" onclick="window.open('https://unstop.com/o/FzqN56l?lb=KzCLvTxO&utm_medium=Share&utm_source=WhatsApp', '_blank')">
+      <div class="dev-logo-mark">
+        <img src="/static/devlympics.png" alt="Devlympics" onerror="this.onerror=null; this.src='/static/devlympics.jpeg';">
+      </div>
+      <div class="dev-title-block">
+        <h1>AURAVISION <span>· DEVLYMPICS</span></h1>
+        <div class="dev-subtext">DEVOPS CLUB NSUT · DWARKA NEW DELHI</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-center">
+    <div class="event-live-pill">
+      <div class="live-pulse-dot"></div>
+      OCTOBER 17 · LIVE TODAY
+    </div>
+    <a href="https://unstop.com/o/FzqN56l?lb=KzCLvTxO&utm_medium=Share&utm_source=WhatsApp" target="_blank" class="unstop-btn">
+      🏆 UNSTOP PORTAL &rarr;
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <div class="cam-indicator-chip">
+      <div class="cam-indicator-dot" id="piStatusDot"></div>
+      <span id="piStatusText">Laptop Webcam Active</span>
+    </div>
+  </div>
+</header>
+
+<!-- SLIM TICKER -->
+<div class="dev-ticker">
+  <div class="ticker-left">
+    <span>COMPETITION: <b>DEVLYMPICS 2026</b></span>
+    <span>VENUE: <b>AUDI-2, NSUT DWARKA</b></span>
+    <span>ORGANIZER: <b>DEVOPS CLUB NSUT</b></span>
+    <span>CAMERA: <b id="tickerCamLabel">LAPTOP WEBCAM</b></span>
+  </div>
+  <div class="voice-mini-badge">
+    <div class="mic-wave">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+    <span id="voiceStatusLabel">Voice &amp; AI Active</span>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<main class="dashboard-grid">
+  <!-- LEFT: STREAM & TELEMETRY -->
+  <section style="display:flex; flex-direction:column; gap:14px;">
+    <div class="cyber-panel">
+      <!-- CAMERA SELECTOR -->
+      <div class="camera-source-bar">
+        <div class="cam-btn-group">
+          <button class="cam-btn active" id="btnCamLaptop" onclick="setCameraSource('laptop')">
+            <span class="cam-dot blue"></span> 💻 Laptop Webcam
+          </button>
+          <button class="cam-btn" id="btnCamHardware" onclick="setCameraSource('hardware')">
+            <span class="cam-dot cyan"></span> 📷 Hardware Cam (Pi)
+          </button>
+          <button class="cam-btn" id="btnCamAuto" onclick="setCameraSource('auto')">
+            🔄 Auto
+          </button>
+        </div>
+        <span class="cam-active-badge blue" id="camActiveBadge">ACTIVE: 💻 LAPTOP WEBCAM</span>
+      </div>
+
+      <!-- VIDEO STAGE -->
+      <div class="video-stage-container" id="videoStage">
+        <img id="liveVideoFeed" src="/" alt="Live Stream" onerror="handleStreamError()" onload="handleStreamLoaded()">
+        <div class="hud-target-reticle"></div>
+        <div class="hud-overlay">
+          <div class="hud-top-bar">
+            <div class="hud-mode-pill" id="hudModeTag">IDLE STANDBY</div>
+            <div class="hud-live-tag">
+              <span style="color:#ff1e42;">●</span> EDGE LIVE
+            </div>
+          </div>
+          <div class="hud-bottom-bar">
+            <div class="hud-meta-badge" id="hudSrcTag">SRC: LAPTOP WEBCAM</div>
+            <div class="hud-meta-badge" id="hudFpsTag">LATENCY: &lt; 20ms</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="hud-controls-bar">
+        <div class="stage-btn-group">
+          <button class="stage-action-btn" onclick="toggleRotation()">
+            🔄 Rotate (<span id="rotDegLabel">0°</span>)
+          </button>
+          <button class="stage-action-btn" onclick="triggerSnapshot()">
+            📸 Snapshot
+          </button>
+          <button class="stage-action-btn" onclick="triggerSOS()">
+            🚨 Trigger SOS
+          </button>
+          <button class="stage-action-btn" onclick="toggleFullscreen()">
+            ⛶ Fullscreen
+          </button>
+        </div>
+        <div class="panel-meta" id="resolutionMeta">640x480 @ 30 FPS</div>
+      </div>
+    </div>
+
+    <!-- COMPACT TELEMETRY -->
+    <div class="cyber-panel">
+      <div class="telemetry-row">
+        <div class="telemetry-box">
+          <div class="telemetry-label">Active Mode</div>
+          <div class="telemetry-val" id="statActiveMode">STANDBY</div>
+        </div>
+        <div class="telemetry-box">
+          <div class="telemetry-label">Primary Camera</div>
+          <div class="telemetry-val blue" id="statLinkHealth">LAPTOP WEBCAM</div>
+        </div>
+        <div class="telemetry-box">
+          <div class="telemetry-label">AI Companion</div>
+          <div class="telemetry-val emerald" id="statEngineState">READY (MISTRAL)</div>
+        </div>
+        <div class="telemetry-box">
+          <div class="telemetry-label">Emergency System</div>
+          <div class="telemetry-val ruby" id="statSosState">ARMED</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: POSTER, MODES & INTERACTIVE AI CHAT -->
+  <aside class="sidebar-deck">
+
+    <!-- DEVLYMPICS OFFICIAL POSTER BANNER -->
+    <div class="dev-banner-card">
+      <img src="/static/devlympics.png" alt="Devlympics 2026" class="dev-banner-poster" onerror="this.onerror=null; this.src='/static/devlympics.jpeg';" onclick="window.open('https://unstop.com/o/FzqN56l?lb=KzCLvTxO&utm_medium=Share&utm_source=WhatsApp', '_blank')">
+      <div class="dev-banner-footer">
+        <span>AUDI-2 · NSUT DWARKA</span>
+        <span style="color:var(--nsut-gold); font-weight:bold;">₹50,000+ PRIZE POOL</span>
+      </div>
+    </div>
+
+    <!-- MODE BUTTONS & SOS -->
+    <div class="cyber-panel">
+      <div class="panel-head">
+        <div class="panel-title">FEATURE MODULES</div>
+        <div class="panel-meta">ONE-CLICK SELECT</div>
+      </div>
+      <div class="modes-grid">
+        <!-- 1. DETECTION -->
+        <a class="mode-card" id="card-detection" onclick="switchMode('detection')">
+          <div class="mode-badge" style="color:#00f0ff; border-color:#00f0ff;">M1</div>
+          <div class="mode-info">
+            <div class="mode-name">Detection</div>
+            <div class="mode-desc">YOLOv8 Objects</div>
+          </div>
+        </a>
+
+        <!-- 2. READING -->
+        <a class="mode-card" id="card-reading" onclick="switchMode('reading')">
+          <div class="mode-badge" style="color:#38bdf8; border-color:#38bdf8;">M2</div>
+          <div class="mode-info">
+            <div class="mode-name">OCR Reading</div>
+            <div class="mode-desc">Text to Speech</div>
+          </div>
+        </a>
+
+        <!-- 3. PAYMENT -->
+        <a class="mode-card" id="card-payment" onclick="switchMode('payment')">
+          <div class="mode-badge" style="color:#f6c343; border-color:#f6c343;">M3</div>
+          <div class="mode-info">
+            <div class="mode-name">UPI Payment</div>
+            <div class="mode-desc">QR Scanner</div>
+          </div>
+        </a>
+
+        <!-- 4. AI COMPANION -->
+        <a class="mode-card" id="card-ai" onclick="switchMode('ai')">
+          <div class="mode-badge" style="color:#a855f7; border-color:#a855f7;">M4</div>
+          <div class="mode-info">
+            <div class="mode-name">AI Assistant</div>
+            <div class="mode-desc">Voice &amp; Chat</div>
+          </div>
+        </a>
+
+        <!-- 5. SOS EMERGENCY BUTTON -->
+        <a class="sos-card-btn" id="card-sos" onclick="triggerSOS()">
+          🚨 EMERGENCY SOS MODE
+        </a>
+
+        <!-- STANDBY BUTTON -->
+        <a class="standby-card-btn" id="btnStandby" onclick="switchMode('idle')">
+          ◼ STANDBY / PAUSE
+        </a>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE AI COMPANION CHAT & VOICE -->
+    <div class="cyber-panel">
+      <div class="panel-head">
+        <div class="panel-title">AI COMPANION · REPLIES TO ALL QUERIES</div>
+        <div class="panel-meta">VOICE + TEXT</div>
+      </div>
+      <div class="ai-chat-box">
+        <div class="ai-dialogue-stream" id="aiDialogueStream">
+          <div class="chat-msg ai">
+            <span class="chat-sender">AURAVISION AI:</span>
+            <span class="chat-body">Hello! I am AuraVision, active on your laptop for Devlympics 2026. Ask me anything or speak to me!</span>
+          </div>
+        </div>
+
+        <div class="ai-input-row">
+          <input type="text" class="ai-text-input" id="aiTextInput" placeholder="Ask AI anything (e.g. tell me about Devlympics, who made you)..." onkeydown="if(event.key==='Enter') submitAiQuery()">
+          <button class="ai-send-btn" onclick="submitAiQuery()">ASK</button>
+        </div>
+
+        <div class="quick-prompts-row">
+          <div class="prompt-chip" onclick="quickAsk('tell me about devlympics at NSUT today')">🏆 Devlympics Info</div>
+          <div class="prompt-chip" onclick="quickAsk('who created you and for what event?')">💡 Who made you?</div>
+          <div class="prompt-chip" onclick="quickAsk('what features do you have?')">🛠 Features</div>
+          <div class="prompt-chip" onclick="quickAsk('what is the time?')">⏰ Current Time</div>
+          <div class="prompt-chip" onclick="switchMode('sos')">🚨 SOS Alert</div>
+        </div>
+
+        <div class="mic-toggle-row">
+          <span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">
+            MIC: <b id="micStatusText" style="color:var(--emerald);">ALWAYS OPEN</b>
+          </span>
+          <button class="mic-btn-compact" id="micToggleBtn" onclick="toggleAlwaysOpenMic()">
+            🎙️ TOGGLE MIC
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+</main>
+
+<script>
+const MODES = ['detection', 'reading', 'payment', 'ai', 'sos', 'idle'];
+let currentRotation = 0;
+let isMicAlwaysOpen = true;
+let lastVoiceTimestamp = 0;
+let lastAiResponse = "";
+let currentActiveMode = 'idle';
+
+// Browser-level instant speech backup
+function browserSpeak(text) {
+  if ('speechSynthesis' in window && text) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.05;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+function appendChatMessage(sender, text, isUser = false) {
+  const stream = document.getElementById('aiDialogueStream');
+  if (!stream) return;
+  const item = document.createElement('div');
+  item.className = 'chat-msg ' + (isUser ? 'user' : 'ai');
+  item.innerHTML = `<span class="chat-sender">${sender.toUpperCase()}:</span><span class="chat-body">${text}</span>`;
+  stream.appendChild(item);
+  stream.scrollTop = stream.scrollHeight;
+}
+
+function handleStreamError() {
+  document.getElementById('statLinkHealth').textContent = 'RECONNECTING...';
+  document.getElementById('statLinkHealth').className = 'telemetry-val ruby';
+}
+
+function handleStreamLoaded() {
+  document.getElementById('statLinkHealth').textContent = 'LAPTOP WEBCAM';
+  document.getElementById('statLinkHealth').className = 'telemetry-val blue';
+}
+
+async function fetchStatus() {
+  try {
+    const res = await fetch('/status', { cache: 'no-store' });
+    const data = await res.json();
+
+    currentActiveMode = data.mode || 'idle';
+    applyModeUI(currentActiveMode);
+    updateCameraUI(data.camera_preference, data.active_camera, data.pi_connected);
+
+    if (data.stream_rotation !== undefined) {
+      currentRotation = data.stream_rotation;
+      const rotEl = document.getElementById('rotDegLabel');
+      if (rotEl) rotEl.textContent = currentRotation + '°';
+    }
+  } catch (e) {}
+}
+
+function applyModeUI(mode) {
+  MODES.forEach(m => {
+    const card = document.getElementById('card-' + m);
+    if (card) {
+      if (m === mode && mode !== 'idle') card.classList.add('active');
+      else card.classList.remove('active');
+    }
+  });
+
+  const modeTag = document.getElementById('hudModeTag');
+  const activeStat = document.getElementById('statActiveMode');
+  const sosStat = document.getElementById('statSosState');
+
+  const names = {
+    'detection': 'NEURAL DETECTION',
+    'reading':   'OCR READING',
+    'payment':   'UPI QR PAYMENT',
+    'ai':        'AI COMPANION',
+    'sos':       '🚨 EMERGENCY SOS',
+    'idle':      'IDLE STANDBY'
+  };
+
+  const label = names[mode] || mode.toUpperCase();
+  if (modeTag) {
+    modeTag.textContent = label;
+    if (mode === 'sos') modeTag.classList.add('sos-flash');
+    else modeTag.classList.remove('sos-flash');
+  }
+  if (activeStat) activeStat.textContent = label;
+  if (sosStat) {
+    if (mode === 'sos') {
+      sosStat.textContent = 'TRANSMITTING';
+      sosStat.className = 'telemetry-val ruby';
+    } else {
+      sosStat.textContent = 'ARMED';
+      sosStat.className = 'telemetry-val emerald';
+    }
+  }
+}
+
+async function switchMode(mode) {
+  applyModeUI(mode);
+  try {
+    await fetch('/switch/' + mode, { cache: 'no-store' });
+    setTimeout(fetchStatus, 80);
+  } catch (e) {}
+}
+
+async function triggerSOS() {
+  if (currentActiveMode === 'sos') {
+    switchMode('idle');
+  } else {
+    switchMode('sos');
+    browserSpeak("Emergency SOS activated. Sending distress beacon and camera snapshot.");
+    appendChatMessage('SYSTEM', '🚨 EMERGENCY SOS ACTIVATED. Transmitting distress coordinates and camera snapshot.');
+  }
+}
+
+async function setCameraSource(source) {
+  try {
+    const res = await fetch('/camera_source/' + source, { method: 'POST' });
+    const data = await res.json();
+    updateCameraUI(data.preference, data.active, data.pi_connected);
+  } catch (e) {}
+}
+
+function updateCameraUI(pref, active, piConnected) {
+  const btnHw = document.getElementById('btnCamHardware');
+  const btnLap = document.getElementById('btnCamLaptop');
+  const btnAuto = document.getElementById('btnCamAuto');
+  const badge = document.getElementById('camActiveBadge');
+  const srcTag = document.getElementById('hudSrcTag');
+  const resMeta = document.getElementById('resolutionMeta');
+  const tickerCam = document.getElementById('tickerCamLabel');
+
+  if (btnHw) btnHw.classList.toggle('active', pref === 'hardware');
+  if (btnLap) btnLap.classList.toggle('active', pref === 'laptop');
+  if (btnAuto) btnAuto.classList.toggle('active', pref === 'auto');
+
+  if (active === 'laptop') {
+    if (badge) {
+      badge.textContent = 'ACTIVE: 💻 LAPTOP WEBCAM';
+      badge.className = 'cam-active-badge blue';
+    }
+    if (srcTag) srcTag.textContent = 'SRC: LAPTOP WEBCAM';
+    if (resMeta) resMeta.textContent = '640x480 @ 30 FPS · LAPTOP WEBCAM';
+    if (tickerCam) tickerCam.textContent = 'LAPTOP WEBCAM';
+  } else if (active === 'hardware') {
+    if (badge) {
+      badge.textContent = 'ACTIVE: 📷 HARDWARE CAM';
+      badge.className = 'cam-active-badge cyan';
+    }
+    if (srcTag) srcTag.textContent = 'SRC: HARDWARE PI CAM';
+    if (resMeta) resMeta.textContent = '640x480 @ 30 FPS · HARDWARE CAM';
+    if (tickerCam) tickerCam.textContent = 'HARDWARE CAM';
+  }
+}
+
+async function toggleRotation() {
+  currentRotation = (currentRotation + 90) % 360;
+  const rotEl = document.getElementById('rotDegLabel');
+  if (rotEl) rotEl.textContent = currentRotation + '°';
+  try {
+    await fetch('/rotate/' + currentRotation, { method: 'POST' });
+  } catch(e) {}
+}
+
+function triggerSnapshot() {
+  window.open('/snapshot', '_blank');
+}
+
+function toggleFullscreen() {
+  const stage = document.getElementById('videoStage');
+  if (!document.fullscreenElement) stage.requestFullscreen().catch(() => {});
+  else document.exitFullscreen();
+}
+
+async function toggleAlwaysOpenMic() {
+  isMicAlwaysOpen = !isMicAlwaysOpen;
+  const statusEl = document.getElementById('micStatusText');
+  if (statusEl) {
+    statusEl.textContent = isMicAlwaysOpen ? 'ALWAYS OPEN' : 'MUTED';
+    statusEl.style.color = isMicAlwaysOpen ? 'var(--emerald)' : 'var(--ruby)';
+  }
+  try {
+    await fetch('/mic_toggle?state=' + (isMicAlwaysOpen ? 'on' : 'off'), { method: 'POST' });
+  } catch(e) {}
+}
+
+async function submitAiQuery() {
+  const input = document.getElementById('aiTextInput');
+  if (!input) return;
+  const prompt = input.value.trim();
+  if (!prompt) return;
+  input.value = '';
+
+  appendChatMessage('YOU', prompt, true);
+
+  try {
+    const res = await fetch('/ask_ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: prompt })
+    });
+    const data = await res.json();
+    if (data.success && data.response) {
+      appendChatMessage('AURAVISION AI', data.response, false);
+      browserSpeak(data.response);
+      setTimeout(fetchStatus, 100);
+    }
+  } catch (e) {
+    appendChatMessage('AURAVISION AI', 'I heard you. All systems are online on your laptop!', false);
+    browserSpeak('I heard you. All systems are online on your laptop!');
+  }
+}
+
+function quickAsk(text) {
+  const input = document.getElementById('aiTextInput');
+  if (input) input.value = text;
+  submitAiQuery();
+}
+
+async function pollVoiceState() {
+  try {
+    const res = await fetch('/voice_state', { cache: 'no-store' });
+    const data = await res.json();
+
+    if (data.timestamp && data.timestamp !== lastVoiceTimestamp) {
+      lastVoiceTimestamp = data.timestamp;
+      if (data.heard) {
+        appendChatMessage('YOU (VOICE)', data.heard, true);
+      }
+      if (data.ai_response && data.ai_response !== lastAiResponse) {
+        lastAiResponse = data.ai_response;
+        appendChatMessage('AURAVISION AI', data.ai_response, false);
+        browserSpeak(data.ai_response);
+      }
+    }
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchStatus();
+  pollVoiceState();
+});
+
+setInterval(fetchStatus, 1200);
+setInterval(pollVoiceState, 450);
+</script>
+</body>
+</html>
